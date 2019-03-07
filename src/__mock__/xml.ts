@@ -30,6 +30,28 @@ export const xmlNodeWithStringChild = {
   childNodes: [
     {
       name: 'text',
+      content: 'asdf',
+      attrs: {},
+      childNodes: [],
+      type: XMLNode.XMLNodeType.Text
+    }
+  ]
+}
+
+export const xmlWithElementChild = `<p><b></b><p>`
+
+export const xmlNodeWithElementChild = {
+  name: 'p',
+  type: XMLNode.XMLNodeType.Element,
+  content: null,
+  attrs: {},
+  childNodes: [
+    {
+      name: 'b',
+      content: null,
+      attrs: {},
+      childNodes: [],
+      type: XMLNode.XMLNodeType.Text
     }
   ]
 }
