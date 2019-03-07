@@ -1,4 +1,4 @@
-export enum XMLNodeType {
+enum XMLNodeType {
   Element,
   Text
 }
