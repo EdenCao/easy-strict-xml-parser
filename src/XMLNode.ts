@@ -9,6 +9,10 @@ type XMLNodeEachCallback = (node: XMLNode) => void;
 export class XMLNode {
   public static XMLNodeType = XMLNodeType;
 
+  public static createTextNode(content: string) {
+    return new XMLNode('text', XMLNodeType.Text, content);
+  }
+
   public name: string = '';
   public type: XMLNodeType | null = null;
   // value can only be string or truthy, cannot be falsy

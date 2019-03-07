@@ -29,7 +29,7 @@ export const xmlNodeWithStringChild = {
   attrs: {},
   childNodes: [
     {
-      name: 
+      name: 'text',
     }
   ]
 }

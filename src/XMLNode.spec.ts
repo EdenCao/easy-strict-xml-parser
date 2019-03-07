@@ -167,4 +167,14 @@ describe("XMLNode", function() {
       ).toBeTruthy();
     })
   });
+
+  describe('create TextNode', function () {
+    it('should be correctly attrs', function() {
+      const textNode = XMLNode.createTextNode('hello');
+      expect(textNode.type).toEqual(XMLNode.XMLNodeType.Text);
+      expect(textNode.content).toEqual('hello');
+      expect(textNode.childNodes.length).toEqual(0);
+      expect(textNode.name).toEqual('text');
+    })
+  })
 });
