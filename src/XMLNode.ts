@@ -5,18 +5,23 @@ export enum XMLNodeType {
 
 type XMLNodeEachCallback = (node: XMLNode) => void;
 
+
 export class XMLNode {
   public static XMLNodeType = XMLNodeType;
 
   public name: string = '';
   public type: XMLNodeType | null = null;
   // value can only be string or truthy, cannot be falsy
-  public attrs: Map<string, string | boolean> = new Map();
+  public attrs: {
+    [index: string]: string | boolean
+  } = {}
+  public content: string | null = null;
   public childNodes: XMLNode[] = [];
 
-  constructor(name: string, type: XMLNodeType) {
+  constructor(name: string, type: XMLNodeType, content: string | null = null) {
     this.name = name;
     this.type = type;
+    this.content = content;
   }
 
   public append(node: XMLNode): void {
@@ -41,10 +46,40 @@ export class XMLNode {
 
   public setAttribute(key: string, value: string): void {
     this.removeAttribute(key);
-    this.attrs.set(key, value || true);
+    this.attrs[key] = value || true;
   }
 
   public removeAttribute(key: string): void {
-    this.attrs.delete(key)
+    if (key in this.attrs) {
+      const attrs = {} as any;
+      for (let k of Object.getOwnPropertyNames(this.attrs)) {
+        if (k !== key) attrs[k] = this.attrs[k];
+      }
+      this.attrs = attrs;
+    }
+  }
+
+  public toJSON(): object {
+    const childNodes: object[] = [];
+    // get all of the child json
+    this.forEach((node) => {
+      childNodes.push(node.toJSON());
+    });
+
+    const selfJSON = buildNodeJSON(this)
+
+    selfJSON.childNodes = childNodes;
+
+    return selfJSON;
+  }
+}
+
+function buildNodeJSON(node: XMLNode) {
+  return {
+    name: node.name,
+    type: node.type,
+    attrs: {...node.attrs},
+    content: node.content,
+    childNodes: [] as object[]
   }
 }
